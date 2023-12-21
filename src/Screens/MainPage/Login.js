@@ -20,38 +20,35 @@ const Login = ({navigation}) => {
   // const dispatch = useDispatch();
 
   const [showNewPass, setShowNewPass] = React.useState(true);
-  const [email, setEmail] = React.useState('');
+  const [number, setNumber] = React.useState();
   const [password, setPassword] = React.useState('');
   const dispatch = useDispatch();
 
   const submit = async () => {
-    if (email === '') {
-      Alert.alert('email is req');
-    } else if (!email.includes('@')) {
-      Alert.alert('email is not valid');
-    } else if (password === '') {
-      Alert.alert('password is req');
-    } else {
+    if (number === '') {
+      ToastAndroid.show('Please Enter Number!', ToastAndroid.SHORT);
+    } 
+     else {
       var body = {
-        email: email,
-        password: password,
+        phone: parseInt(number),
       };
       console.log('body', body);
-      const response = await postData('login', body);
+      const response = await postData('login_otp', body);
 
       console.log('response', response);
-      if (response.message == 'Login Successfully') {
-        ToastAndroid.show('Login Successfully', ToastAndroid.SHORT);
-        dispatch({
-          type: 'SET_USER',
-          payload: response.data,
-        });
-        navigation.dispatch(
-          CommonActions.reset({
-            index: 1,
-            routes: [{name: 'Mainpage'}],
-          }),
-        );
+      if (response.status == 1) {
+        ToastAndroid.show(response.message, ToastAndroid.SHORT);
+        // dispatch({
+        //   type: 'SET_USER',
+        //   payload: response.data,
+        // });
+        // navigation.dispatch(
+        //   CommonActions.reset({
+        //     index: 1,
+        //     routes: [{name: 'Mainpage'}],
+        //   }),
+        // );
+        navigation.navigate('VerifyOtp',number)
       } else {
         ToastAndroid.show('something went wrong', ToastAndroid.SHORT);
       }
@@ -97,13 +94,14 @@ const Login = ({navigation}) => {
             underlineColor={'transparent'}
             left={<TextInput.Icon icon="email" />}
             autoFocus
+            maxLength={10}
             outlineColor={'#ffff'}
-            onChangeText={e => setEmail(e)}
-            placeholder="Email ID"
+            onChangeText={e => setNumber(e)}
+            placeholder="Mobile"
             mode="outlined"
             style={styles.txtinput}
           />
-          <View>
+          {/* <View>
             <TextInput
               style={{...styles.txtinput, marginTop: 10}}
               mode="outlined"
@@ -125,7 +123,7 @@ const Login = ({navigation}) => {
 
               // label="Password"
             />
-          </View>
+          </View> */}
           <TouchableOpacity
             style={{
               marginTop: 30,

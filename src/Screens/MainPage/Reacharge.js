@@ -21,7 +21,7 @@ const RechargeScreen = ({navigation}) => {
   const handleRecharge =async () => {
     // Perform the recharge action here
     if (rechargeAmount == '') {
-        ToastAndroid.show('withdrawal Amount', ToastAndroid.SHORT);
+        ToastAndroid.show('Please Enter Amount', ToastAndroid.SHORT);
       } else {
         const body = {
           user_id: user.user_id,
