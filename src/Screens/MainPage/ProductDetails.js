@@ -81,7 +81,7 @@ const ProductDetails = ({navigation, route}) => {
               color: Color.black,
               fontWeight: 'bold',
               padding: 10,
-              fontSize: 16,
+              fontSize: 17,
             }}>
             {item.coursename}-{item.price}
           </Text>
